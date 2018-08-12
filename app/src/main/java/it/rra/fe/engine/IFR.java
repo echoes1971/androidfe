@@ -155,4 +155,128 @@ public class IFR {
     public void setKaosSequence(KaosSequence kaosSequence) {      this.kaosSequence = kaosSequence;  }
 
 /********************* GET & SET: fine. ************************/
+
+    public String toJson(String sep) {
+        String tab = sep.length()>0 ? " " : "";
+        String ret = "{" + sep;
+        ret += tab + "\"funct\":[" + sep;
+        for(int i=0; i<MAXFUNCTIONS; i++) {
+            if(this.functions[i].isIdentity()) continue;
+            ret += tab+tab + this.functions[i].toJson();
+            if(i<(MAXFUNCTIONS-1) && !this.functions[i+1].isIdentity()) ret += ",";
+            ret += sep;
+        }
+        ret += tab + "]," + sep;
+        ret += tab + "\"precision\":" + this.precision + "," + sep;
+        ret += tab + "\"iterations\":" + this.iterations + "," + sep;
+        ret += tab + "\"KaosSequence\":\"" + this.kaosSequence + "\"," + sep;
+        ret += tab + "\"alg\":\"" + this.algorythm + "\"," + sep;
+        ret += tab + "\"unused\":\"\"," + sep;
+        ret += tab + "\"numedges\":" + this.numEdges + "," + sep;
+        ret += tab + "\"edges\":[" + sep;
+        ret += tab+tab;
+        for(int i=0; i<this.numEdges; i++) {
+            Point p = new Point(xArray[i],yArray[i]);
+            ret += p.toJson();
+            if(i<(this.numEdges-1)) ret += ",";
+        }
+        ret += sep;
+        ret += tab + "]" + sep;
+        ret += "}" + sep;
+        return ret;
+    }
+    IFR fromJson(String s)
+    {
+        int start = s.indexOf("{")+1;
+        int end = s.lastIndexOf("}");
+
+        String tmp = s.substring(start,end);
+        //System.out.println("tmp: " + tmp);
+        start = tmp.indexOf("\"funct\":[",start);
+        end = tmp.indexOf("],",start)+1;
+        String functions = tmp.substring(start+9,end);
+        //System.out.println("functions: " + functions );
+        tmp = tmp.substring(end+1);
+        int start_func = functions.indexOf("{");
+        int end_func = functions.indexOf("}",start_func)+1;
+        String s_func = "";
+        int fn = 0;
+        while(fn<MAXFUNCTIONS && start_func>=0 && end_func>=0) {
+            s_func = functions.substring(start_func,end_func);
+            functions = functions.substring(end_func+1);
+            this.functions[fn].fromJson(s_func);
+            //System.out.println("start_func="+start_func+"\tend_func="+end_func);
+            //System.out.println("s_func: " + s_func);
+            //System.out.println("    ==> " + this.functions[fn].toJson("") );
+            //System.out.println("functions: " + functions);
+            start_func = functions.indexOf("{");
+            end_func = functions.indexOf("}")+1;
+            fn++;
+        }
+        //System.out.println("tmp: " + tmp);
+        String tmp2;
+
+        start = tmp.indexOf("\"precision\":");
+        end = tmp.indexOf(",");
+        tmp2 = tmp.substring(start+12, end);
+        tmp = tmp.substring(end+1);
+        this.precision = Integer.parseInt(tmp2);
+
+        start = tmp.indexOf("\"iterations\":");
+        end = tmp.indexOf(",");
+        tmp2 = tmp.substring(start + 13, end);
+        tmp = tmp.substring(end+1);
+        this.iterations = Integer.parseInt(tmp2);
+
+        start = tmp.indexOf("\"KaosSequence\":\"");
+        end = tmp.indexOf("\",");
+        tmp2 = tmp.substring(start + 16, end);
+        tmp = tmp.substring(end+2);
+        for(int i=0; i<tmp2.length() && i<MAXFUNCTIONS; i++) {
+            this.kaosSequence.addElement(tmp2.charAt(i));
+        }
+        //System.out.println("KaosSequence: " + this.kaosSequence.toString());
+
+        start = tmp.indexOf("\"alg\":\"");
+        end = tmp.indexOf("\",");
+        tmp2 = tmp.substring(start + 7, end);
+        tmp = tmp.substring(end+2);
+        this.algorythm = tmp2.charAt(0);
+
+        start = tmp.indexOf("\"unused\":\"");
+        end = tmp.indexOf("\",");
+        tmp2 = tmp.substring(start + 10, end);
+        tmp = tmp.substring(end+2);
+        //this.unused='\0';
+
+        start = tmp.indexOf("\"numedges\":");
+        end = tmp.indexOf(",");
+        tmp2 = tmp.substring(start + 11, end);
+        tmp = tmp.substring(end+1);
+        this.numEdges = Integer.parseInt(tmp2);
+
+        start = tmp.indexOf("\"edges\":[");
+        end = tmp.lastIndexOf("]");
+        tmp2 = tmp.substring(start + 9, end);
+        tmp = tmp.substring(end+1);
+        //System.out.println("tmp2: " + tmp2);
+        //System.out.println("tmp: " + tmp);
+
+        Point p = new Point();
+        for(int i=0; i<this.numEdges; i++) {
+            int pnt_start, pnt_end; String tmp3;
+            pnt_start = tmp2.indexOf("[");
+            pnt_end = tmp2.indexOf("]")+1;
+            tmp3 = tmp2.substring(pnt_start,pnt_end);
+            tmp2 = (pnt_end+1) < tmp2.length() ? tmp2.substring(pnt_end+1) : "";
+            //System.out.println("tmp3[" + i + "]=" + tmp3);
+            //System.out.println("tmp2[" + i + "]=" + tmp2);
+            p.fromJson(tmp3);
+            this.xArray[i] = p.getX();
+            this.yArray[i] = p.getY();
+        }
+
+        return this;
+    }
+
 }

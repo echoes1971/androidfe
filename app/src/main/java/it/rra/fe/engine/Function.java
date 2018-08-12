@@ -133,7 +133,7 @@ public class Function {
     }
 
     /**Is the current function the Identity function?*/
-    private boolean isIdentity() {
+    public boolean isIdentity() {
         return (cx==100 && cy==100 && tx==0 && ty==0 && rot==0);
     }
     // Getters & Setters
@@ -166,4 +166,48 @@ public class Function {
     }
     public int getProb() { return prob; }
     public void setProb(int newValue) { prob=newValue; }
+
+    String toJson() { return toJson(""); }
+    String toJson(String sep) {
+        String ret = "{" + sep;
+        ret += "\"next\":" + boh + "," + sep;
+        ret += "\"cx\":" + cx + "," + sep;
+        ret += "\"cy\":" + cy + "," + sep;
+        ret += "\"tx\":" + tx + "," + sep;
+        ret += "\"ty\":" + ty + "," + sep;
+        ret += "\"rot\":" + rot + "," + sep;
+        ret += "\"prob\":" + prob + sep;
+        ret += "}";
+        return ret;
+    }
+    Function fromJson(String s)
+    {
+        int start = 0, end = 0;
+        String tmp;
+
+        start = s.indexOf("\"next\":");    end = s.indexOf(",");
+        tmp = s.substring(start + 7, end);
+        this.boh = Integer.parseInt(tmp);
+
+        start = s.indexOf("\"cx\":",start);   end = s.indexOf(",",start); tmp = s.substring(start + 5, end);
+        this.cx = Integer.parseInt(tmp);
+
+        start = s.indexOf("\"cy\":",start); end = s.indexOf(",",start);  tmp = s.substring(start + 5, end);
+        this.cy = Integer.parseInt(tmp);
+
+        start = s.indexOf("\"tx\":",start); end = s.indexOf(",",start);  tmp = s.substring(start + 5, end);
+        this.tx = Integer.parseInt(tmp);
+
+        start = s.indexOf("\"ty\":",start); end = s.indexOf(",",start);  tmp = s.substring(start + 5, end);
+        this.ty = Integer.parseInt(tmp);
+
+        start = s.indexOf("\"rot\":",start); end = s.indexOf(",",start); tmp = s.substring(start + 6, end);
+        this.rot = Integer.parseInt(tmp);
+        if(this.rot>360 || this.rot<0) this.rot = (this.rot)%360;
+
+        start = s.indexOf("\"prob\":",start);    end = s.length()-1;  tmp = s.substring(start + 7, end);
+        this.prob = Integer.parseInt(tmp);
+
+        return this;
+    }
 }

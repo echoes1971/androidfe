@@ -27,7 +27,7 @@ public class KaosSequence {
     public boolean isValidElement(char element) {
         // Controllo che sia un numero
         int j = (int) element;
-        log.writeln(LogBean.DEBUG, "KaosSequence.isValidElement: \'"+element+"\' = "+j+"\'." );
+        //log.writeln(LogBean.DEBUG, "KaosSequence.isValidElement: \'"+element+"\' = "+j+"\'." );
         return ( (j>=((int)'0')) && (j<=((int)'9')) );
     }
     public String toString() {
@@ -42,26 +42,26 @@ public class KaosSequence {
         setAllElements( sequence.toCharArray() );
     }
     public void setAllElements(char[] sequence) {
-        log.write(LogBean.DEBUG, "KaosSequence.setAllElements: sequence="+sequence);
+        //log.write(LogBean.DEBUG, "KaosSequence.setAllElements: sequence="+sequence);
         length = 0;
         try {
-            while( addElement( sequence[ length ] ) ) {}
+            while(addElement(sequence[length])) {}
         } catch(Exception e) {
             // Ho finito gli elementi nell'array in input
         }
     }
     /**Aggiunge un elemento in coda. Torna TRUE sse l'array non Ë pieno. */
     public boolean addElement(char element) {
-        log.writeln(LogBean.DEBUG, "KaosSequence.addElement: length="+length+" - maxsize="+maxSize);
-        if ( (length < maxSize ) && isValidElement(element) ) {
+        //log.writeln(LogBean.DEBUG, "KaosSequence.addElement: length="+length+" - maxsize="+maxSize);
+        if((length < maxSize ) && isValidElement(element)) {
             this.element[length++] = element;
             return true;
         } else
             return false;
     }
 
-    public int getLength() {        return length+1;    }
-    public void setLength(int length) {        this.length = length;    }
+    public int getLength() { return length+1; }
+    public void setLength(int length) { this.length = length; }
 
-    public int getMaxSize() {        return maxSize;    }
+    public int getMaxSize() { return maxSize; }
 }

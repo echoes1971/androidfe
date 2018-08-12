@@ -24,4 +24,15 @@ public class Point {
     public int getY() {        return y;    }
     public void setY(int y) {  this.y = y;  }
 
+    String toJson() {
+        return "[" + this.x + "," + this.y + "]";
+    }
+    public Point fromJson(String s) {
+        int start = s.indexOf("[");
+        int middle = s.indexOf(",");
+        int end = s.indexOf("]");
+        this.x = Integer.parseInt(s.substring(start+1,middle));//,middle-start-1);
+        this.y = Integer.parseInt(s.substring(middle+1,end));//,-middle-1);
+        return this;
+    }
 }
