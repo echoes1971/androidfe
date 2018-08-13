@@ -143,8 +143,10 @@ public class IFR {
     public void setNumEdges(int ne) {      this.numEdges = ne;  }
     public char getAlgorythm() {      return this.algorythm;  }
     public void setAlgorythm(char newValue) {      this.algorythm = newValue;  }
+
     public Function getFunction(int n) {      return this.functions[n];  }
     public void setFunction(int n, Function newValue) {      this.functions[n] = newValue;  }
+
     public String getIfrName() {      return this.ifrName;  }
     public void setIfrName(String newValue) {      this.ifrName = newValue;  }
     public int getIterations() {      return this.iterations;  }
@@ -154,6 +156,13 @@ public class IFR {
     public KaosSequence getKaosSequence() {      return kaosSequence;  }
     public void setKaosSequence(KaosSequence kaosSequence) {      this.kaosSequence = kaosSequence;  }
 
+    public Point[] getPoints() {
+        Point[] pnts = new Point[this.numEdges];
+        for(int i=0; i<this.numEdges; i++) {
+            pnts[i] = new Point(this.xArray[i],this.yArray[i]);
+        }
+        return pnts;
+    }
 /********************* GET & SET: fine. ************************/
 
     public String toJson(String sep) {
@@ -185,7 +194,7 @@ public class IFR {
         ret += "}" + sep;
         return ret;
     }
-    IFR fromJson(String s)
+    public IFR fromJson(String s)
     {
         int start = s.indexOf("{")+1;
         int end = s.lastIndexOf("}");

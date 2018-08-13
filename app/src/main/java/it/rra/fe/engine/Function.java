@@ -73,8 +73,8 @@ public class Function {
             //log.write(LogBean.DEBUG, "Function.apply: f("+point.getX()+","+point.getY()+") = ");
             int tx1 = ((point.getX()*this.cx)/100);
             int ty1 = ((point.getY()*this.cy)/100);
-            point.setX( ((tx1*cos_w-ty1*sin_w)>>14) + this.tx );
-            point.setY( ((tx1*sin_w+ty1*cos_w)>>14) + this.ty );
+            point.setX(((tx1*cos_w-ty1*sin_w)>>14) + this.tx);
+            point.setY(((tx1*sin_w+ty1*cos_w)>>14) + this.ty);
             //log.writeln(LogBean.DEBUG, "("+point.getX()+","+point.getY()+")");
         }
         return point;
@@ -91,10 +91,10 @@ public class Function {
         t = f.apply(t);
         this.tx = t.getX(); this.ty = t.getY();
         // Aggiorno S
-        if (cx!=0) this.setCx ( (this.cx * f.getCx()) / 100 );
-        if (cy!=0) this.setCy ( (this.cy * f.getCy()) / 100 );
+        if(cx!=0) this.setCx((this.cx * f.getCx()) / 100);
+        if(cy!=0) this.setCy((this.cy * f.getCy()) / 100);
         // Aggiorno R
-        this.setRot( this.rot + f.getRot() );
+        this.setRot(this.rot + f.getRot());
         return true;
     }
     /**
@@ -141,14 +141,14 @@ public class Function {
     public void setBoh(int newValue) { boh=newValue; }
     public int getCx() { return cx; }
     public void setCx(int newValue) {
-        if (newValue>100)     newValue=100;
-        if (newValue<-100)    newValue=-100;
+//        if(newValue>100)  newValue=100;
+//        if(newValue<-100) newValue=-100;
         cx=newValue;
     }
     public int getCy() { return cy; }
     public void setCy(int newValue) {
-        if (newValue>100)    newValue=100;
-        if (newValue<-100)   newValue=-100;
+//        if (newValue>100)    newValue=100;
+//        if (newValue<-100)   newValue=-100;
         cy=newValue;
     }
     public int getTx() { return tx; }

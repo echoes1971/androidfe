@@ -32,6 +32,7 @@ public class EngineTest {
             content = new String(Files.readAllBytes(Paths.get(filename)));
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
+            content = "{\"funct\":[{\"next\":16,\"cx\":50,\"cy\":50,\"tx\":-50,\"ty\":50,\"rot\":0,\"prob\":7500},{\"next\":32,\"cx\":50,\"cy\":50,\"tx\":50,\"ty\":50,\"rot\":0,\"prob\":7500},{\"next\":48,\"cx\":50,\"cy\":50,\"tx\":-50,\"ty\":-50,\"rot\":0,\"prob\":7500}],\"precision\":2,\"iterations\":6,\"KaosSequence\":\"012\",\"alg\":\"A\",\"unused\":\"\",\"numedges\":3,\"edges\":[[100,100],[-100,100],[-100,-100]]}";
         }
         System.out.println("  " + content);
 
@@ -49,5 +50,17 @@ public class EngineTest {
         ifr2.fromJson(s);
         System.out.println("> " + ifr2.toJson("\n"));
 */
+        IFR ifr = new IFR();
+        ifr.fromJson(content);
+        Function f = new Function(500/2,500/2,500/2,500/2,0);
+        System.out.println("f=" + f.toJson());
+        Point[] pnts = new Point[ifr.getNumEdges()];
+        for(int i=0; i<ifr.getNumEdges(); i++) {
+            pnts[i] = new Point(ifr.getX(i),ifr.getY(i));
+            System.out.print("f(" + pnts[i].toJson() + ")=");
+            pnts[i] = f.apply(pnts[i]);
+            System.out.println("\t" + pnts[i].toJson());
+        }
+
     }
 }
