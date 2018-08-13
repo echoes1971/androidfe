@@ -26,7 +26,8 @@ public class EngineTest {
         f2.fromJson(s);
         System.out.println("> " + f2.toJson());
 
-        String filename = "/Users/roberto/AndroidStudioProjects/AndroidFractalEditor/ifr/triangle.json.ifr";
+        String filename = "/Users/roberto/AndroidStudioProjects/AndroidFractalEditor/ifr/tree.json.ifr";
+        //String filename = "/Users/roberto/AndroidStudioProjects/AndroidFractalEditor/ifr/triangle.json.ifr";
         String content = "";
         try {
             content = new String(Files.readAllBytes(Paths.get(filename)));

@@ -54,7 +54,7 @@ public class Function {
     private int sin_w, cos_w;
     //    private tempPoint = new Point();
     public Point apply(int x, int y) {
-//      if (tempPoint==null) tempPoint = new Point();
+//      if(tempPoint==null) tempPoint = new Point();
         // Nota: sembra uno spreco di memoria MA la funzione potrebbe essere acceduta
         //        concorrentemente da + parti dell'applicativo.
         Point tempPoint = new Point();
@@ -69,7 +69,7 @@ public class Function {
      *    - point.y = (ty1*cos_w+ty1*sin_w) + ty
      */
     public Point apply(Point point) {
-        if (!this.isIdentity()) {
+        if(!this.isIdentity()) {
             //log.write(LogBean.DEBUG, "Function.apply: f("+point.getX()+","+point.getY()+") = ");
             int tx1 = ((point.getX()*this.cx)/100);
             int ty1 = ((point.getY()*this.cy)/100);
@@ -106,11 +106,11 @@ public class Function {
      *    - point.y = (ty1*cos_w+ty1*sin_w)
      */
     public Point applyRS(Point point) {
-        if (!this.isIdentity()) {
+        if(!this.isIdentity()) {
             int tx1 = ((point.getX()*this.cx)/100);
             int ty1 = ((point.getY()*this.cy)/100);
-            point.setX( ((tx1*cos_w-ty1*sin_w)>>14)  );
-            point.setY( ((tx1*sin_w+ty1*cos_w)>>14)  );
+            point.setX(((tx1*cos_w-ty1*sin_w)>>14));
+            point.setY(((tx1*sin_w+ty1*cos_w)>>14));
         }
         return point;
     }
@@ -118,11 +118,11 @@ public class Function {
      *    Applica solo le matrici R ed S (Rotazione e Scale) della funzione e T (Traslazione) custom.
      */
     public Point applyRST(Point point, Point t) {
-        if (!this.isIdentity()) {
+        if(!this.isIdentity()) {
             int tx1 = ((point.getX()*this.cx)/100);
             int ty1 = ((point.getY()*this.cy)/100);
-            point.setX( ((tx1*cos_w-ty1*sin_w)>>14) + t.getX() );
-            point.setY( ((tx1*sin_w+ty1*cos_w)>>14) + t.getY() );
+            point.setX(((tx1*cos_w-ty1*sin_w)>>14) + t.getX());
+            point.setY(((tx1*sin_w+ty1*cos_w)>>14) + t.getY());
         }
         return point;
     }
@@ -147,8 +147,8 @@ public class Function {
     }
     public int getCy() { return cy; }
     public void setCy(int newValue) {
-//        if (newValue>100)    newValue=100;
-//        if (newValue<-100)   newValue=-100;
+//        if(newValue>100)    newValue=100;
+//        if(newValue<-100)   newValue=-100;
         cy=newValue;
     }
     public int getTx() { return tx; }

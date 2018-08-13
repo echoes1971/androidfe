@@ -60,13 +60,14 @@ public class EditActivity extends AppCompatActivity {
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);
         // Line width in pixels
-        paint.setStrokeWidth(1);
+        paint.setStrokeWidth(4);
         paint.setAntiAlias(true);
 
 
         Point[] pnts = ifr.getPoints();
         this.paintPolygon(canvas, paint, pnts);
 
+        paint.setStrokeWidth(1);
         paint.setColor(Color.BLUE);
         Point[] pnts2 = new Point[ifr.getNumEdges()];
         for(int j=0; j<ifr.getKaosSequence().getLength(); j++) {
@@ -88,7 +89,7 @@ public class EditActivity extends AppCompatActivity {
     public void paintPolygon(Canvas canvas, Paint paint, Point[] pnts) {
 
         //Point center = new Point(BITMAP_WIDTH/2,BITMAP_HEIGHT/2);
-        Function f = new Function(BITMAP_WIDTH/2,-1*BITMAP_HEIGHT/2,BITMAP_WIDTH/2,BITMAP_HEIGHT/2,0);
+        Function f = new Function(BITMAP_WIDTH/2,BITMAP_HEIGHT/2,BITMAP_WIDTH/2,BITMAP_HEIGHT/2,0);
         //Function f = new Function(200,-200,BITMAP_WIDTH/2,BITMAP_HEIGHT/2,0);
         for(int i=0; i<pnts.length; i++) {
             pnts[i] = f.apply(pnts[i]);
