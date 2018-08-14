@@ -74,7 +74,7 @@ public class EditActivity extends AppCompatActivity {
             pnts = ifr.getPoints();
             Function f = ifr.getFunction(j);
             for(int i=0; i<ifr.getNumEdges(); i++) {
-                pnts2[i] = f.apply(pnts[i]);
+                pnts2[i] = f.applyRST(pnts[i]);
             }
             this.paintPolygon(canvas, paint, pnts2);
         }

@@ -117,6 +117,15 @@ public class Function {
     /**
      *    Applica solo le matrici R ed S (Rotazione e Scale) della funzione e T (Traslazione) custom.
      */
+    public Point applyRST(Point point) {
+        if(!this.isIdentity()) {
+            int tx1 = ((point.getX()*this.cx)/100);
+            int ty1 = ((point.getY()*this.cy)/100);
+            point.setX(((tx1*cos_w-ty1*sin_w)>>14) + this.tx);
+            point.setY(((tx1*sin_w+ty1*cos_w)>>14) + this.ty);
+        }
+        return point;
+    }
     public Point applyRST(Point point, Point t) {
         if(!this.isIdentity()) {
             int tx1 = ((point.getX()*this.cx)/100);
@@ -158,9 +167,11 @@ public class Function {
     public int getRot() { return rot; }
     /**Setta anche sin_w e cos_w per questa funzione.*/
     public void setRot(int newValue) {
-        rot=newValue;
+        //System.out.println("newValue="+newValue);
+        rot = newValue;
         rot = ( rot<0   ? rot+360 : rot );
         rot = ( rot>360 ? rot%360 : rot );
+        //System.out.println("rot="+rot);
         sin_w = Sinus.sin(this.rot);
         cos_w = Sinus.cos(this.rot);
     }
@@ -202,10 +213,13 @@ public class Function {
         this.ty = Integer.parseInt(tmp);
 
         start = s.indexOf("\"rot\":",start); end = s.indexOf(",",start); tmp = s.substring(start + 6, end);
-        this.rot = Integer.parseInt(tmp);
-        if(this.rot>360 || this.rot<0) this.rot = (this.rot)%360;
+        //System.out.println("rot:"+tmp);
+        this.setRot(Integer.parseInt(tmp));
+//        this.rot = Integer.parseInt(tmp);
+//        if(this.rot>360 || this.rot<0) this.rot = (this.rot)%360;
 
         start = s.indexOf("\"prob\":",start);    end = s.length()-1;  tmp = s.substring(start + 7, end);
+        //System.out.println("prob:"+tmp);
         this.prob = Integer.parseInt(tmp);
 
         return this;

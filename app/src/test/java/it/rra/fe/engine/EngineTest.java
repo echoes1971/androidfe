@@ -19,15 +19,18 @@ public class EngineTest {
         System.out.println("> " + p2.toJson());
 
         Function f1 = new Function(90,82,13,-23,34);
-        f1.setProb(7500);
+        f1.setProb(1234);
         s = f1.toJson();
         System.out.println(s);
         Function f2 = new Function();
         f2.fromJson(s);
         System.out.println("> " + f2.toJson());
 
-        String filename = "/Users/roberto/AndroidStudioProjects/AndroidFractalEditor/ifr/tree.json.ifr";
-        //String filename = "/Users/roberto/AndroidStudioProjects/AndroidFractalEditor/ifr/triangle.json.ifr";
+        String path = "C:\\Users\\taaroro3\\Projects\\androidfe\\ifr\\";
+        //String path = "/Users/roberto/AndroidStudioProjects/AndroidFractalEditor/ifr/";
+        //String filename = path + "tree.json.ifr";
+        //String filename = "/Users/roberto/AndroidStudioProjects/AndroidFractalEditor/ifr/a-tree.json.ifr";
+        String filename = path + "triangle.json.ifr";
         String content = "";
         try {
             content = new String(Files.readAllBytes(Paths.get(filename)));
@@ -55,13 +58,20 @@ public class EngineTest {
         ifr.fromJson(content);
         Function f = new Function(500/2,500/2,500/2,500/2,0);
         System.out.println("f=" + f.toJson());
-        Point[] pnts = new Point[ifr.getNumEdges()];
-        for(int i=0; i<ifr.getNumEdges(); i++) {
-            pnts[i] = new Point(ifr.getX(i),ifr.getY(i));
+        Point[] pnts = ifr.getPoints();
+        for(int i=0; i<pnts.length; i++) {
             System.out.print("f(" + pnts[i].toJson() + ")=");
-            pnts[i] = f.apply(pnts[i]);
+            pnts[i] = f.applyRST(pnts[i]);
             System.out.println("\t" + pnts[i].toJson());
         }
 
+        f = new Function(500/2,500/2,500/2,500/2,45);
+        System.out.println("f=" + f.toJson());
+        pnts = ifr.getPoints();
+        for(int i=0; i<pnts.length; i++) {
+            System.out.print("f(" + pnts[i].toJson() + ")=");
+            pnts[i] = f.applyRST(pnts[i]);
+            System.out.println("\t" + pnts[i].toJson());
+        }
     }
 }
