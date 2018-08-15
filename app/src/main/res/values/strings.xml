@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Fractal Editor</string>
-    <string name="title_activity_edit">EditActivity</string>
+    <string name="title_activity_edit">Edit Fractal</string>
 </resources>
