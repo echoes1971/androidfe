@@ -74,4 +74,13 @@ public class EngineTest {
             System.out.println("\t" + pnts[i].toJson());
         }
     }
+
+    private int myrand(int min, int max) { return (int)(Math.random() * ((max - min) )) + min; }
+
+    @Test
+    public void testRand() {
+        for(int i=0; i<100; i++) {
+            System.out.println(myrand(0,10));
+        }
+    }
 }

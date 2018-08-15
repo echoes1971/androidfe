@@ -81,22 +81,35 @@ public class Function {
     }
     /**
      *    Calcola:
-     *    f * g
+     *    f(g)
      *    e memorizza il risultato nella funzione stessa
      *    ovvero:   f.apply(g) modifica f con risultato del prodotto
      */
-    public boolean apply(Function f) {
+    public Function apply(Function g) {
+        Function ret = new Function();
         // Trasformo T = (tx,ty)
-        Point t = new Point(this.tx,this.ty);
-        t = f.apply(t);
-        this.tx = t.getX(); this.ty = t.getY();
+        Point t = new Point(g.getTx(),g.getTy());
+        t = this.applyRST(t);
+        ret.setTx(t.getX()); ret.setTy(t.getY());
         // Aggiorno S
-        if(cx!=0) this.setCx((this.cx * f.getCx()) / 100);
-        if(cy!=0) this.setCy((this.cy * f.getCy()) / 100);
+        if(cx!=0) ret.setCx((this.cx * g.getCx()) / 100);
+        if(cy!=0) ret.setCy((this.cy * g.getCy()) / 100);
         // Aggiorno R
-        this.setRot(this.rot + f.getRot());
-        return true;
+        ret.setRot(this.rot + g.getRot());
+        return ret;
     }
+//    public boolean apply(Function f) {
+//        // Trasformo T = (tx,ty)
+//        Point t = new Point(this.tx,this.ty);
+//        t = f.apply(t);
+//        this.tx = t.getX(); this.ty = t.getY();
+//        // Aggiorno S
+//        if(cx!=0) this.setCx((this.cx * f.getCx()) / 100);
+//        if(cy!=0) this.setCy((this.cy * f.getCy()) / 100);
+//        // Aggiorno R
+//        this.setRot(this.rot + f.getRot());
+//        return true;
+//    }
     /**
      *    Applica solo le matrici R ed S (Rotazione e Scale)
      *    Calcola:

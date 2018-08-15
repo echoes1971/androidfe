@@ -80,10 +80,24 @@ public class EditActivity extends AppCompatActivity {
         }
 
 
+        pnts = ifr.getPoints();
+        paint.setColor(Color.GREEN);
+        this.paintPolygon(canvas, paint, pnts);
+        // f(g)
+        Function f = ifr.getFunction(myrand(0,ifr.getKaosSequence().getLength()));
+        for(int j=0; j<ifr.getKaosSequence().getLength(); j++) {
+            pnts = ifr.getPoints();
+            Function g = ifr.getFunction(j);
+            Function fg = f.apply(g);
+            for(int i=0; i<ifr.getNumEdges(); i++) {
+                pnts2[i] = fg.applyRST(pnts[i]);
+            }
+            this.paintPolygon(canvas, paint, pnts2);
+        }
+
+
         // Display the newly created bitmap on app interface
         mImageView.setImageBitmap(bitmap);
-
-
     }
 
     public void paintPolygon(Canvas canvas, Paint paint, Point[] pnts) {
@@ -121,4 +135,5 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
+    private int myrand(int min, int max) { return (int)(Math.random() * (max - min)) + min; }
 }
