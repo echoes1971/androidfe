@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -146,8 +147,11 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
+    public void btn_prev_onLongClick(View v) {
 
+    }
     public void btn_prev(View view) {
+        Button myself = (Button) view;
         if(current_function==0) {
             current_function = ifr.getKaosSequence().getLength() - 1;
         } else {
